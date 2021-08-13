@@ -7,7 +7,6 @@ class LoginScreen extends StatelessWidget {
   TextEditingController userText = TextEditingController();
   TextEditingController passText = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +86,8 @@ class LoginScreen extends StatelessWidget {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
-                          print(loginStatus);
+                          Navigator.of(context).pushReplacementNamed('/home');
+                          print('Great work');
                         }
                       },
                     )),

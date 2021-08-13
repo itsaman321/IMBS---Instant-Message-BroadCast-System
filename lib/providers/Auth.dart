@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 class Auth with ChangeNotifier {
+  Map<String, dynamic> _userData = {};
+
+  Map<String, dynamic> get userData {
+    return _userData;
+  }
+
   //Login function
 
   Future login(uname, pass) async {
@@ -15,7 +22,15 @@ class Auth with ChangeNotifier {
 
     final response = await http.post(url, body: loginData);
     final status = response.body;
-    return status;
+    if (status == 'null') {
+      return status;
+    } else if (status == 'error') {
+      return status;
+    } else {
+      _userData = jsonDecode(status);
+      print(_userData);
+      return status;
+    }
   }
 
   //Register
@@ -32,10 +47,6 @@ class Auth with ChangeNotifier {
 
     final response = await http.post(url, body: registerData);
 
-    
-
     return response.body;
-
-    
   }
 }
