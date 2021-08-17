@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rollychat/providers/uc.dart';
 import '../providers/Auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class _HomepageState extends State<Homepage> {
   var isLoading = true;
   TextEditingController clientCode = TextEditingController();
   Map<String, dynamic> user = {};
-  var clientList  = [];
+  var clientList = [];
 
   @override
   void initState() {
@@ -23,7 +24,7 @@ class _HomepageState extends State<Homepage> {
   @override
   void didChangeDependencies() async {
     await Provider.of<Uc>(context, listen: false).getClient(user['id']);
-    clientList =  Provider.of<Uc>(context, listen: false).clients;
+    clientList = Provider.of<Uc>(context, listen: false).clients;
 
     setState(() {
       isLoading = false;
@@ -33,7 +34,6 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -77,18 +77,31 @@ class _HomepageState extends State<Homepage> {
             },
             icon: Icon(Icons.add),
           ),
+          IconButton(
+            onPressed: () async {
+              final prefs = await SharedPreferences.getInstance();
+              if (prefs.getString('status') != '') {
+                prefs.remove('status');
+              }
+              Navigator.of(context).pushReplacementNamed('/login');
+            },
+            icon: Icon(Icons.logout),
+          ),
         ],
       ),
       body: isLoading
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : ListView.builder(itemBuilder: (BuildContext context , int index){
-            return ListTile(
-              title: Text(clientList[index].code),
-              subtitle: Text(clientList[index].name) ,
-            );
-          },itemCount: clientList.length,),
+          : ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(clientList[index].code),
+                  subtitle: Text(clientList[index].name),
+                );
+              },
+              itemCount: clientList.length,
+            ),
     );
   }
 }

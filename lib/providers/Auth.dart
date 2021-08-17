@@ -1,7 +1,8 @@
 import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
   Map<String, dynamic> _userData = {};
@@ -13,23 +14,34 @@ class Auth with ChangeNotifier {
   //Login function
 
   Future login(uname, pass) async {
-    Map<String, dynamic> loginData = {
-      'uname': uname,
-      'pass': pass,
-    };
-    final url =
-        Uri.parse('https://stated-heater.000webhostapp.com/imbs/login.php');
+    final prefs = await SharedPreferences.getInstance();
+    final userPref = jsonDecode(prefs.getString('status').toString());
 
-    final response = await http.post(url, body: loginData);
-    final status = response.body;
-    if (status == 'null') {
-      return status;
-    } else if (status == 'error') {
-      return status;
+    if (userPref == null) {
+      Map<String, dynamic> loginData = {
+        'uname': uname,
+        'pass': pass,
+      };
+      final url =
+          Uri.parse('https://stated-heater.000webhostapp.com/imbs/login.php');
+
+      final response = await http.post(url, body: loginData);
+      final status = response.body;
+      if (status == 'null') {
+        return status;
+      } else if (status == 'error') {
+        return status;
+      } else {
+        _userData = jsonDecode(status);
+        // print(_userData);
+        prefs.setString('status', status);
+        return status;
+      }
     } else {
-      _userData = jsonDecode(status);
-      print(_userData);
-      return status;
+      print(userPref);
+      _userData = jsonDecode(prefs.getString('status').toString());
+      
+      return userPref;
     }
   }
 
