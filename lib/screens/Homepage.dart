@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rollychat/providers/uc.dart';
 import '../providers/Auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../widgets/client_widget.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -95,10 +96,7 @@ class _HomepageState extends State<Homepage> {
             )
           : ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(clientList[index].code),
-                  subtitle: Text(clientList[index].name),
-                );
+                return ClientListTile(id: clientList[index].id, code: clientList[index].code, name: clientList[index].name);
               },
               itemCount: clientList.length,
             ),

@@ -22,7 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Future userLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
     final userPref = jsonDecode(prefs.getString('status').toString());
-    print(userPref);
     if (userPref == null) {
       return;
     } else {
@@ -63,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          'Sign in',
+                          'Login',
                           style: TextStyle(fontSize: 20),
                         )),
                     Container(

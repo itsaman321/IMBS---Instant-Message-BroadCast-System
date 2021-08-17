@@ -38,9 +38,7 @@ class Auth with ChangeNotifier {
         return status;
       }
     } else {
-      print(userPref);
       _userData = jsonDecode(prefs.getString('status').toString());
-      
       return userPref;
     }
   }
