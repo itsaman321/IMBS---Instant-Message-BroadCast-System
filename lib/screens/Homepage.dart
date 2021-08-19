@@ -56,7 +56,7 @@ class _HomepageState extends State<Homepage> {
                             controller: clientCode,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              labelText: 'User Name',
+                              labelText: 'Client Code',
                             ),
                           ),
                           RaisedButton(
@@ -66,7 +66,6 @@ class _HomepageState extends State<Homepage> {
                               final addStatus =
                                   await Provider.of<Uc>(context, listen: false)
                                       .addClient(clientCode.text, user['id']);
-
                               print(addStatus);
                             },
                             child: Text('Add Client'),

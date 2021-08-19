@@ -50,4 +50,18 @@ class Uc with ChangeNotifier {
       });
     }
   }
+
+  Future<void> removeClient(String uid, String clientCode) async {
+    Map userDetail = {
+      'userid': uid,
+      'clientcode': clientCode,
+    };
+
+    final url = Uri.parse(
+        'https://stated-heater.000webhostapp.com/imbs/removeClient.php');
+
+    final response = await http.post(url, body: userDetail);
+
+    print(response.body);
+  }
 }
