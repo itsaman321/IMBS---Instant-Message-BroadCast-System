@@ -31,6 +31,7 @@ class Uc with ChangeNotifier {
     if (response.statusCode == 200) {
       return response.body;
     }
+    notifyListeners();
   }
 
   Future getClient(String userId) async {
@@ -63,5 +64,7 @@ class Uc with ChangeNotifier {
     final response = await http.post(url, body: userDetail);
 
     print(response.body);
+    
+    notifyListeners();
   }
 }

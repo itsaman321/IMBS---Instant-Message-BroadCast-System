@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/uc.dart';
-import '../screens/loginScreen.dart';
-import '../screens/registerScreen.dart';
-import '../providers/Auth.dart';
+import './providers/message.dart';
+import './screens/Message_board.dart';
+import './providers/uc.dart';
+import './screens/loginScreen.dart';
+import './screens/registerScreen.dart';
+import './providers/Auth.dart';
 import './screens/Homepage.dart';
 
 void main() {
@@ -21,6 +23,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => Uc(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => MessageProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -32,6 +37,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => LoginScreen(),
           '/register': (context) => RegisterScreen(),
           '/home': (context) => Homepage(),
+          '/messageBoard': (context) => MessageBoard(),
         },
       ),
     );

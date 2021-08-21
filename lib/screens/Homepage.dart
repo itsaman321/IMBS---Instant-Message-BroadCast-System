@@ -24,9 +24,8 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void didChangeDependencies() async {
-    await Provider.of<Uc>(context, listen: false).getClient(user['id']);
+    await Provider.of<Uc>(context).getClient(user['id']);
     clientList = Provider.of<Uc>(context, listen: false).clients;
-
     setState(() {
       isLoading = false;
     });
@@ -35,6 +34,7 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
+    print('Widget Building');
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -66,6 +66,8 @@ class _HomepageState extends State<Homepage> {
                               final addStatus =
                                   await Provider.of<Uc>(context, listen: false)
                                       .addClient(clientCode.text, user['id']);
+
+                              setState(() {});
                               print(addStatus);
                             },
                             child: Text('Add Client'),
@@ -93,11 +95,18 @@ class _HomepageState extends State<Homepage> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return ClientListTile(id: clientList[index].id, code: clientList[index].code, name: clientList[index].name);
+          : Consumer<Uc>(
+              builder: (_, value, child) {
+                return ListView.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return ClientListTile(
+                        id: clientList[index].id,
+                        code: clientList[index].code,
+                        name: clientList[index].name);
+                  },
+                  itemCount: clientList.length,
+                );
               },
-              itemCount: clientList.length,
             ),
     );
   }
