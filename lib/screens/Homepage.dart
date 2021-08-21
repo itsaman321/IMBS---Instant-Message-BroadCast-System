@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rollychat/providers/uc.dart';
@@ -19,6 +21,7 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     user = Provider.of<Auth>(context, listen: false).userData;
+
     super.initState();
   }
 
@@ -29,6 +32,13 @@ class _HomepageState extends State<Homepage> {
     setState(() {
       isLoading = false;
     });
+    Timer.periodic(
+        Duration(
+          minutes: 15,
+        ),
+        (timer) {
+          
+        });
     super.didChangeDependencies();
   }
 

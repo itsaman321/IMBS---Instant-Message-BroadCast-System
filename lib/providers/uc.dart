@@ -25,6 +25,7 @@ class Uc with ChangeNotifier {
       'userid': userId,
       'clientcode': clientCode,
     };
+
     final url = Uri.parse(
         'https://stated-heater.000webhostapp.com/imbs/addClients.php');
     final response = await http.post(url, body: connData);
@@ -64,7 +65,7 @@ class Uc with ChangeNotifier {
     final response = await http.post(url, body: userDetail);
 
     print(response.body);
-    
+
     notifyListeners();
   }
 }

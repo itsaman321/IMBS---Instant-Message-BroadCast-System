@@ -16,13 +16,7 @@ class Message {
 }
 
 class MessageProvider with ChangeNotifier {
-  List<Message> msg = [
-    Message(
-        id: '123',
-        clientcode: 'XYZ123',
-        message: 'This is great time',
-        time: DateTime.now().timeZoneName.toString()),
-  ];
+  List<Message> msg = [];
   Future getMessages(String clientId) async {
     final url = Uri.parse(
         'https://stated-heater.000webhostapp.com/imbs/getMessages.php');
