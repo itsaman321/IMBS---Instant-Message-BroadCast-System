@@ -30,6 +30,8 @@ class Uc with ChangeNotifier {
         'https://stated-heater.000webhostapp.com/imbs/addClients.php');
     final response = await http.post(url, body: connData);
     if (response.statusCode == 200) {
+      getClient(userId);
+      _clients = [];
       return response.body;
     }
     notifyListeners();
@@ -64,6 +66,7 @@ class Uc with ChangeNotifier {
 
     final response = await http.post(url, body: userDetail);
 
+    _clients = [];
     print(response.body);
 
     notifyListeners();

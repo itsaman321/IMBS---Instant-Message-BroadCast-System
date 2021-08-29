@@ -23,20 +23,22 @@ class ClientListTile extends StatelessWidget {
           'name': name,
         });
       },
-      child: ListTile(
-        title: Text(code),
-        subtitle: Text(name),
-        trailing: IconButton(
-          onPressed: () async {
-            final status = await Provider.of<Uc>(context,listen: false)
-                .removeClient(user['id'], code);
-          },
-          icon: Icon(
-            Icons.delete,
-            color: Colors.red,
+      child: Consumer<Uc>(builder: (ctx, child, value) {
+        return ListTile(
+          title: Text(code),
+          subtitle: Text(name),
+          trailing: IconButton(
+            onPressed: () async {
+              final status = await Provider.of<Uc>(context, listen: false)
+                  .removeClient(user['id'], code);
+            },
+            icon: Icon(
+              Icons.delete,
+              color: Colors.red,
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

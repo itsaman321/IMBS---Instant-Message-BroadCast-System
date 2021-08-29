@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import '../providers/notificationPlugin.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rollychat/providers/uc.dart';
@@ -17,18 +17,31 @@ class _HomepageState extends State<Homepage> {
   TextEditingController clientCode = TextEditingController();
   Map<String, dynamic> user = {};
   var clientList = [];
+  var notify = NotificationPlugin();
 
   @override
   void initState() {
     user = Provider.of<Auth>(context, listen: false).userData;
 
+    notify.setOnNotificationRecieve(onNotificationReceive);
+    notify.setOnNotificationClick(onNotificationClick);
+
     super.initState();
+  }
+
+  onNotificationReceive(RecieveNotification notification) {
+    print('notificationRecieved:${notification.id}');
+  }
+
+  onNotificationClick(String payload) {
+    print('PAyload : $payload');
   }
 
   @override
   void didChangeDependencies() async {
     await Provider.of<Uc>(context).getClient(user['id']);
     clientList = Provider.of<Uc>(context, listen: false).clients;
+    await notify.showNotification();
     setState(() {
       isLoading = false;
     });
@@ -36,9 +49,7 @@ class _HomepageState extends State<Homepage> {
         Duration(
           minutes: 15,
         ),
-        (timer) {
-          
-        });
+        (timer) {});
     super.didChangeDependencies();
   }
 
@@ -54,38 +65,39 @@ class _HomepageState extends State<Homepage> {
           IconButton(
             onPressed: () {
               showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext ctx) {
-                    return Container(
-                      height: 150,
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextField(
-                            controller: clientCode,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Client Code',
-                            ),
+                context: context,
+                builder: (BuildContext ctx) {
+                  return Container(
+                    height: 150,
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextField(
+                          controller: clientCode,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Client Code',
                           ),
-                          RaisedButton(
-                            color: Colors.blue,
-                            textColor: Colors.white,
-                            onPressed: () async {
-                              final addStatus =
-                                  await Provider.of<Uc>(context, listen: false)
-                                      .addClient(clientCode.text, user['id']);
+                        ),
+                        RaisedButton(
+                          color: Colors.blue,
+                          textColor: Colors.white,
+                          onPressed: () async {
+                            final addStatus =
+                                await Provider.of<Uc>(context, listen: false)
+                                    .addClient(clientCode.text, user['id']);
 
-                              setState(() {});
-                              print(addStatus);
-                            },
-                            child: Text('Add Client'),
-                          )
-                        ],
-                      ),
-                    );
-                  });
+                            Navigator.of(context).pushReplacementNamed('/home');
+                            print(addStatus);
+                          },
+                          child: Text('Add Client'),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
             },
             icon: Icon(Icons.add),
           ),
