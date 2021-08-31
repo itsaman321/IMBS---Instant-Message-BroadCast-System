@@ -30,14 +30,15 @@ class Uc with ChangeNotifier {
         'https://stated-heater.000webhostapp.com/imbs/addClients.php');
     final response = await http.post(url, body: connData);
     if (response.statusCode == 200) {
-      getClient(userId);
       _clients = [];
+      getClient(userId);
       return response.body;
     }
     notifyListeners();
   }
 
   Future getClient(String userId) async {
+    
     Map<String, dynamic> connData = {
       'userid': userId,
     };
@@ -45,6 +46,7 @@ class Uc with ChangeNotifier {
         'https://stated-heater.000webhostapp.com/imbs/getClients.php');
     final response = await http.post(url, body: connData);
     if (response.statusCode == 200) {
+      _clients = [];
       List<dynamic> clientData = json.decode(response.body);
       clientData.forEach((clientData) {
         _clients.add(Client(

@@ -6,6 +6,7 @@ import 'package:rollychat/providers/uc.dart';
 import '../providers/Auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/client_widget.dart';
+import '../providers/notification.dart' show Noti;
 
 class Homepage extends StatefulWidget {
   @override
@@ -41,15 +42,21 @@ class _HomepageState extends State<Homepage> {
   void didChangeDependencies() async {
     await Provider.of<Uc>(context).getClient(user['id']);
     clientList = Provider.of<Uc>(context, listen: false).clients;
-    await notify.showNotification();
+    final notifyStatus = await Provider.of<Noti>(context, listen: false)
+        .getNotifications(user['id']);
+    if (notifyStatus == 'equal') {
+    } else if(notifyStatus == 0){
+      print('No Notification');
+      
+    }else{
+      
+      await notify.showNotification(
+          1, notifyStatus['clientid'], notifyStatus['message'], 'Payload ');
+    }
     setState(() {
       isLoading = false;
     });
-    Timer.periodic(
-        Duration(
-          minutes: 15,
-        ),
-        (timer) {});
+
     super.didChangeDependencies();
   }
 
@@ -88,7 +95,7 @@ class _HomepageState extends State<Homepage> {
                                 await Provider.of<Uc>(context, listen: false)
                                     .addClient(clientCode.text, user['id']);
 
-                            Navigator.of(context).pushReplacementNamed('/home');
+                            Navigator.pushReplacementNamed(context, '/home');
                             print(addStatus);
                           },
                           child: Text('Add Client'),

@@ -63,14 +63,14 @@ class NotificationPlugin {
     });
   }
 
-  Future<void> showNotification() async {
+  Future<void> showNotification(int id ,String  title,String message ,String payload) async {
     var androidChannel = AndroidNotificationDetails('your channel id', 'youchannel name', 'description',
         importance: Importance.max, priority: Priority.high, playSound: true);
     var iosChannel = IOSNotificationDetails();
     var platformChannel =
         NotificationDetails(android: androidChannel, iOS: iosChannel);
-    await flutterLocalNotificationsPlugin.show(1, 'New Message', 'You got a New Message !', platformChannel,
-        payload: 'New Payload');
+    await flutterLocalNotificationsPlugin.show( id , title, message, platformChannel,
+        payload: payload);
   }
 }
 

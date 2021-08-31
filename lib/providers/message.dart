@@ -19,15 +19,6 @@ class Message {
 
 class MessageProvider with ChangeNotifier {
   List<Message> msg = [];
-  Map<String, int> notifications = {};
-  var msgCount = 0;
-
-  Future getNotification(String clientId) async {
-    final prefs = await SharedPreferences.getInstance();
-    if(msg != json.decode(prefs.getString(clientId).toString())) {
-        
-    }
-  }
 
   Future getMessages(String clientId) async {
     final prefs = await SharedPreferences.getInstance();

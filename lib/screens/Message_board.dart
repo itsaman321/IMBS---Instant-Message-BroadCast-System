@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/message.dart' show MessageProvider;
+import 'package:http/http.dart' as http;
 
 class MessageBoard extends StatefulWidget {
   const MessageBoard({Key? key}) : super(key: key);
@@ -12,11 +13,10 @@ class MessageBoard extends StatefulWidget {
 class _MessageBoardState extends State<MessageBoard> {
   List msgList = [];
 
-
   @override
   Widget build(BuildContext context) {
     final client = ModalRoute.of(context)!.settings.arguments as Map;
-    msgList = Provider.of<MessageProvider>(context,listen: false).msg;
+    msgList = Provider.of<MessageProvider>(context, listen: false).msg;
 
     return Scaffold(
       appBar: AppBar(

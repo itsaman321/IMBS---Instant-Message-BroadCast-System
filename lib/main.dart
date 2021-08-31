@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import './providers/notification.dart';
 import './providers/message.dart';
 import './screens/Message_board.dart';
 import './providers/uc.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => MessageProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Noti(),
         ),
       ],
       child: MaterialApp(
