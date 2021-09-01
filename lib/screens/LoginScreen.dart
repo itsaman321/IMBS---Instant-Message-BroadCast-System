@@ -141,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         FlatButton(
                           textColor: Colors.blue,
                           child: Text(
-                            'Sign in',
+                            'Register Here',
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () {

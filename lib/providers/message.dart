@@ -21,8 +21,7 @@ class MessageProvider with ChangeNotifier {
   List<Message> msg = [];
 
   Future getMessages(String clientId) async {
-    final prefs = await SharedPreferences.getInstance();
-
+    msg = [];
     final url = Uri.parse(
         'https://stated-heater.000webhostapp.com/imbs/getMessages.php');
     final response = await http.post(url, body: {
@@ -37,7 +36,6 @@ class MessageProvider with ChangeNotifier {
           message: message['message'],
           time: message['time']));
     });
-    prefs.setString(clientId, json.encode(msgData));
 
     notifyListeners();
   }

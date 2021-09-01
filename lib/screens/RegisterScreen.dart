@@ -97,7 +97,7 @@ class RegisterScreen extends StatelessWidget {
                         final snackBar = SnackBar(
                             backgroundColor: Colors.yellowAccent,
                             content:
-                                Text('Already Registered .Please Login !'));
+                                Text('Already Registered .Please Login !',style: TextStyle(color: Colors.black),));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                     },
