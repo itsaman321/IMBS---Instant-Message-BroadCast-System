@@ -10,28 +10,44 @@ import './screens/registerScreen.dart';
 import './providers/Auth.dart';
 import './screens/Homepage.dart';
 import 'dart:convert';
+import 'package:workmanager/workmanager.dart';
+import './providers/notificationPlugin.dart';
 
-// void callbackDispatcher() {
-//   Workmanager().executeTask((task, inputData) async {
-//     final prefs = await SharedPreferences.getInstance();
-//     final user = jsonDecode(prefs.getString('status').toString());
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userPref = jsonDecode(prefs.getString('status').toString());
+    var notify = NotificationPlugin();
 
-//     if (user != null) {
-//       print(user);
-//     }
+    if (userPref != null) {
+      if (prefs.getString('notifynew') != null) {
+        final data = jsonDecode(prefs.getString('notifynew').toString());
+        if (data == 'equal') {
+        } else if (data == 0) {
+          print('No Notification');
+        } else {
+          await notify.showNotification(
+              1, data['clientid'], data['message'], 'Payload ');
+        }
+      }
+    }
 
-//     return Future.value(true);
-//   });
-// }
+    return Future.value(true);
+  });
+}
 
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // Workmanager().initialize(
-  //     callbackDispatcher, // The top level function, aka callbackDispatcher
-  //     isInDebugMode:
-  //         true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-  //     );
-  // Workmanager().registerPeriodicTask('IMBS', 'New Message Check',frequency: Duration(minutes: 15),initialDelay: Duration(seconds: 0));
+  WidgetsFlutterBinding.ensureInitialized();
+  Workmanager().initialize(
+      callbackDispatcher, // The top level function, aka callbackDispatcher
+      isInDebugMode:
+          true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+      );
+  Workmanager().registerPeriodicTask(
+    "1",
+    "simpleTask",
+    frequency: Duration(minutes: 15),
+  );
   runApp(MyApp());
 }
 

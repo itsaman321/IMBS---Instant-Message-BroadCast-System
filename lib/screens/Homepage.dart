@@ -45,16 +45,27 @@ class _HomepageState extends State<Homepage> {
     final notifyStatus = await Provider.of<Noti>(context, listen: false)
         .getNotifications(user['id']);
     if (notifyStatus == 'equal') {
-    } else if(notifyStatus == 0){
+    } else if (notifyStatus == 0) {
       print('No Notification');
-      
-    }else{
-      
+    } else {
       await notify.showNotification(
           1, notifyStatus['clientid'], notifyStatus['message'], 'Payload ');
     }
+
     setState(() {
       isLoading = false;
+    });
+
+    Timer.periodic(Duration(seconds: 5), (timer) async {
+      final notifyStatus = await Provider.of<Noti>(context, listen: false)
+          .getNotifications(user['id']);
+      if (notifyStatus == 'equal') {
+      } else if (notifyStatus == 0) {
+        print('No Notification');
+      } else {
+        await notify.showNotification(
+            1, notifyStatus['clientid'], notifyStatus['message'], 'Payload ');
+      }
     });
 
     super.didChangeDependencies();

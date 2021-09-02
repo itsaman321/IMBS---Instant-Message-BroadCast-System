@@ -28,7 +28,8 @@ dependencies:
   provider: ^5.0.0
   flutter_local_notifications: ^8.1.1+1
   rxdart: ^0.27.1
-
+  workmanager: ^0.4.1
+  
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

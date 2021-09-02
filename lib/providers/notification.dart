@@ -52,6 +52,7 @@ class Noti extends ChangeNotifier {
           var notifyLength = notiData.length - 1;
           print(notiData[notifyLength]);
           prefs.setString('notify', json.encode(notiData));
+          prefs.setString('notifynew', json.encode(notiData[notifyLength]));
           return notiData[notifyLength];
         } else if (oldDataLength == notiDatalength) {
           print('equal');
