@@ -10,6 +10,7 @@ import './screens/registerScreen.dart';
 import './providers/Auth.dart';
 import './screens/Homepage.dart';
 import 'dart:convert';
+import './providers/notification.dart';
 import 'package:workmanager/workmanager.dart';
 import './providers/notificationPlugin.dart';
 
@@ -19,6 +20,13 @@ void callbackDispatcher() {
     final userPref = jsonDecode(prefs.getString('status').toString());
     var notify = NotificationPlugin();
 
+    final noti = Noti();
+    final notifyData = await noti.getNotifications(userPref['id']);
+
+    await notify.showNotification(1, notifyData['clientid'], notifyData['message'], 'Payload ');
+
+    print(notifyData);
+
     if (userPref != null) {
       if (prefs.getString('notifynew') != null) {
         final data = jsonDecode(prefs.getString('notifynew').toString());
@@ -27,7 +35,8 @@ void callbackDispatcher() {
           print('No Notification');
         } else {
           await notify.showNotification(
-              1, data['clientid'], data['message'], 'Payload ');
+              1, notifyData['clientid'], notifyData['message'], 'Payload ');
+
         }
       }
     }
@@ -39,9 +48,8 @@ void callbackDispatcher() {
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Workmanager().initialize(
-      callbackDispatcher, // The top level function, aka callbackDispatcher
-      
-      );
+    callbackDispatcher, // The top level function, aka callbackDispatcher
+  );
   Workmanager().registerPeriodicTask(
     "1",
     "simpleTask",
