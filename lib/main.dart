@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import './providers/notification.dart';
 import './providers/message.dart';
 import './screens/Message_board.dart';
@@ -8,8 +9,29 @@ import './screens/loginScreen.dart';
 import './screens/registerScreen.dart';
 import './providers/Auth.dart';
 import './screens/Homepage.dart';
+import 'dart:convert';
+
+// void callbackDispatcher() {
+//   Workmanager().executeTask((task, inputData) async {
+//     final prefs = await SharedPreferences.getInstance();
+//     final user = jsonDecode(prefs.getString('status').toString());
+
+//     if (user != null) {
+//       print(user);
+//     }
+
+//     return Future.value(true);
+//   });
+// }
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // Workmanager().initialize(
+  //     callbackDispatcher, // The top level function, aka callbackDispatcher
+  //     isInDebugMode:
+  //         true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+  //     );
+  // Workmanager().registerPeriodicTask('IMBS', 'New Message Check',frequency: Duration(minutes: 15),initialDelay: Duration(seconds: 0));
   runApp(MyApp());
 }
 
@@ -32,7 +54,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'IMBS',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
