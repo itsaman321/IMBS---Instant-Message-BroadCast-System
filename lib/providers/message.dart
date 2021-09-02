@@ -39,4 +39,12 @@ class MessageProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+  List<Message> get limitMessage {
+    List<Message> limitMsg = [];
+    for (var i = msg.length - 1; i >= msg.length - 5; i--) {
+      limitMsg.add(msg[i]);
+    }
+    return limitMsg;
+  }
 }

@@ -16,7 +16,7 @@ class _MessageBoardState extends State<MessageBoard> {
   @override
   Widget build(BuildContext context) {
     final client = ModalRoute.of(context)!.settings.arguments as Map;
-    msgList = Provider.of<MessageProvider>(context, listen: false).msg;
+    msgList = Provider.of<MessageProvider>(context, listen: false).limitMessage;
 
     return Scaffold(
       appBar: AppBar(
